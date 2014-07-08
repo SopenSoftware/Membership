@@ -1,7 +1,7 @@
 Ext.ns('Tine.Membership');
 
 Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, {
-	
+
 	/**
 	 * @private
 	 */
@@ -32,22 +32,22 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 		this.initDependentGrids();
 		this.on('load',this.onLoadSoMember, this);
 		this.on('afterrender',this.onAfterRender,this);
-		
+
 		this.action_addMembership = new Ext.Action({
             actionType: 'edit',
             handler: this.onAddMembership,
             iconCls: 'action_edit',
             scope: this
         });
-		
+
 		this.action_newContact = new Ext.Action({
             actionType: 'edit',
             handler: this.newContactSimple,
             text: 'Neuen Kontakt verwenden',
             iconCls: 'action_add',
             scope: this
-        });        
-		
+        });
+
         this.action_editAddress = new Ext.Action({
             actionType: 'edit',
             handler: this.onEditAddress,
@@ -104,7 +104,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
             text: 'Kontakt vorher anlegen',
             scope: this
         });
-        
+
         this.actions_addNewMember = new Ext.Action({
          	allowMultiple: false,
          	text: 'Neues Mitglied',
@@ -117,7 +117,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
              	]
              }
          });
-        
+
         this.actions_createMemberAccount = new Ext.Action({
         	requiredGrant: 'readGrant',
             text: 'Online Zugang erzeugen',
@@ -147,7 +147,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
              	]
              }
          });
-	   
+
         this.actions_billing = new Ext.Action({
          	allowMultiple: false,
          	text: 'Abrechnung/Zahlung',
@@ -165,7 +165,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
             iconCls: 'action_exportAsPdf',
             scope: this
         });
-        
+
         this.actions_printBeginLetter = new Ext.Action({
             text: 'Aufnahmeanschreiben drucken',
 			disabled: false,
@@ -173,7 +173,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
             iconCls: 'action_exportAsPdf',
             scope: this
         });
-        
+
         this.actions_printTerminationLetter = new Ext.Action({
             text: 'Kündigungsbestätigung drucken',
 			disabled: false,
@@ -181,7 +181,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
             iconCls: 'action_exportAsPdf',
             scope: this
         });
-        
+
         this.actions_printInsuranceLetter = new Ext.Action({
             text: 'Versicherungsbestätigung drucken',
 			disabled: false,
@@ -189,7 +189,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
             iconCls: 'action_exportAsPdf',
             scope: this
         });
-        
+
         this.actions_printMemberCardLetter = new Ext.Action({
             text: 'Mitgliedsausweis drucken',
 			disabled: false,
@@ -197,7 +197,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
             iconCls: 'action_exportAsPdf',
             scope: this
         });
-        
+
         this.actions_exportDTA = new Ext.Action({
             text: 'DTA-Export',
 			disabled: false,
@@ -253,7 +253,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 		var memKind = this.getMembershipKind();
 
 		var dep = this.dependencies.get(memKind);
-		
+
 		this.children = new Ext.util.MixedCollection();
 		var children = dep.children;
 		for(var i=0; i<children.length; i++){
@@ -309,12 +309,12 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 		}else{
 			this.alertNoBirthdate(contactRecord);
 		}
-		
+
 	},
 	alertNoBirthdate: function(contactRecord){
 		if(Tine.Membership.Config.Alerts.NoBirthdateGiven.isActive){
 			Ext.MessageBox.show({
-	             title: 'Hinweis', 
+	             title: 'Hinweis',
 	             msg: Tine.Membership.Config.Alerts.NoBirthdateGiven.message,
 	             buttons: Ext.Msg.OK,
 	             scope: this,
@@ -339,7 +339,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 			Ext.getCmp('membership_member_nr').label.update('Mitglied-Nr');
 			//Ext.getCmp('membership_member_ext_nr').label.update(this.memKind.dialog_text_member_ext_nr);
 			Ext.getCmp('membership_member_ext_nr').label.update('Mitglied-Nr2');
-			
+
 			Ext.getCmp('membership_association_id').label.update(this.memKind.dialog_text_assoc);
 			if(this.hasParent()){
 				var parent = this.getParent();
@@ -354,27 +354,27 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 				Ext.getCmp('membership_parent_member_id').disable();
 			}
 			this.memberMainPanel.setTitle('Stammdaten ' + this.memKind.dialog_text);
-			
+
 			// check whether feegroup is duty
 			if(this.memKind.fee_group_is_duty == true){
 				Ext.getCmp('membership_fee_group_id').allowBlank = false;
 			}else{
 				Ext.getCmp('membership_fee_group_id').allowBlank = true;
 			}
-			
+
 			if(!this.simplePanel && this.record.id !==0){
 				this.createChildPanels();
 			}
-			
+
 			if(this.record.id == 0){
 				//Ext.getCmp('membership_fee_group_id').enable();
 			}else{
 				//Ext.getCmp('membership_fee_group_id').disable();
 			}
 		}
-		
+
 		if(this.record.id !== 0){
-			
+
 			if(this.memKind){
 				if(this.memKind.uses_fee_progress==1){
 					this.feeProgressGrid.enable();
@@ -388,36 +388,36 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 				}else{
 					this.memberFeeGroupGrid.disable();
 				}
-				
+
 				if(this.memKind.has_functionaries==1){
 					this.committeeFunctionaryGrid.enable();
 					this.committeeFunctionaryGrid.loadParentMember(this.record);
 				}else{
 					this.committeeFunctionaryGrid.disable();
 				}
-				
+
 				if(this.memKind.has_functions==1){
 					this.committeeFuncGrid.enable();
 					this.committeeFuncGrid.loadMember(this.record);
 				}else{
 					this.committeeFuncGrid.disable();
 				}
-				
+
 				this.actionHistoryGrid.enable();
 				this.actionHistoryGrid.loadSoMember(this.record);
-				
-				
+
+
 				this.membershipAwardGrid.enable();
 				this.membershipAwardGrid.loadMember(this.record);
-				
+
 				this.regularDonationGrid.enable();
 				this.regularDonationGrid.loadMember(this.record);
-				
+
 				this.donationGrid.enable();
 				this.donationGrid.loadMember(this.record);
-				
+
 				Ext.getCmp('membership_contact_id').disable();
-				
+
 				Ext.getCmp('membership_contact_id').configureOnDropDecision(
 					true,
 					'Hinweis',
@@ -431,13 +431,13 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 				);
 				this.feeProgressGrid.disable();
 				this.memberFeeGroupGrid.disable();
-				
+
 				this.debitorAccountGrid.disable();
 				this.debitorAccountGrid.store.removeAll();
 			}
 			this.memberAccountGrid.enable();
 			this.memberAccountGrid.loadRelatedMember(this.record);
-			
+
 			var contactRecord = this.record.getForeignRecord(Tine.Addressbook.Model.Contact, 'contact_id');
 			if(contactRecord.get('account_id')){
 				this.actions_createMemberAccount.disable();
@@ -474,8 +474,8 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 				this.debitorAccountGrid.loadDebitor(this.debitorRecord);
 			}
 		} else {
-			
-			
+
+
 		}
 	},
     initButtons: function(){
@@ -494,7 +494,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
  	            iconCls: 'actionAdd',
  	             iconAlign: 'left'
  	        }),
-     	     
+
 	      	   Ext.apply(new Ext.Button(this.actions_editContacts), {
 	  				 text: 'Kontakt',
 	  	             scale: 'small',
@@ -530,7 +530,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 	  	             iconAlign: 'left'
 	  	        }),*/
 	  	    ];
-    	
+
         this.fbar = [
              '->',
              this.action_applyChanges,
@@ -544,11 +544,11 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
     	var predefinedFilter = null;
     	if(membershipType == 'SOCIETY'){
     		predefinedFilter = [
-    		    {	
+    		    {
 					field:'membership_type',
 					operator:'equals',
 					value: 'VIASOCIETY'
-				},{	
+				},{
 					field:'member_nr',
 					operator:'startswith',
 					value: memberNr
@@ -558,10 +558,10 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
     	var win = Tine.Membership.PrintMembershipDialog.openWindow({
     		predefinedFilter: predefinedFilter,
     		actionType: 'printMembers',
-    		panelTitle: 'Mitgliederliste drucken'    			
+    		panelTitle: 'Mitgliederliste drucken'
     	});
     },
-    
+
     printBeginLetter: function(){
 		var downloader = new Ext.ux.file.Download({
 			params: {
@@ -583,7 +583,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
             }
         }).start();
     },
-    
+
     printTerminationLetter: function(){
 		var downloader = new Ext.ux.file.Download({
 			params: {
@@ -594,8 +594,8 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
             }
         }).start();
     },
-    
-    
+
+
     printMemberCardLetter: function(){
     	var win = Tine.Membership.PrintMembershipDialog.openWindow({
 			panelTitle: 'Mitgliedsausweis drucken',
@@ -623,7 +623,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 				    		}else{
 				    			Ext.getCmp('membercard_date').disable();
 				    		}
-				    		
+
 				    	},
 				    	scope:this
 				    }
@@ -644,7 +644,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 					fieldLabel: 'Jahr Mitgliedsausweis',
 					id:'membercard_date',
 					name:'membercard_date',
-					format: 'Y',					
+					format: 'Y',
 					disabled:false,
 					value: new Date(),
 					width: 210
@@ -652,7 +652,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
     		}
 		});
     },
-    
+
     changeParentMember: function(){
     	Tine.Membership.ChangeMemberDataDialog.openWindow({
     		panelTitle: this.action_changeParentMember.getText() + ' ändern',
@@ -671,7 +671,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
     },
     exportDTA: function(){
 		var parentMemberId = this.record.get('id');
-		
+
 		var downloader = new Ext.ux.file.Download({
             params: {
                 method: 'Membership.exportDTACurrent',
@@ -690,7 +690,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 				activeTab: 0
 			};
 			children.eachKey(function(key,item){
-				
+
 				var panel = new Tine.Membership.SoMemberSoMemberGridPanel({
 					id: 'membership-so-member-so-member-grid-'+key,
 					stateId: 'state-id-membership-so-member-so-member-grid-'+key,
@@ -707,7 +707,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 					frame: true,
 					app: Tine.Tinebase.appMgr.get('Membership')
 				});
-				
+
 				var association = new Tine.Membership.Model.Association(this.record.data.association_id, this.record.data.association_id.id);
 				panel.loadParentMember(association, this.record, item.id, item.dialog_text + ' hinzufügen');
 				panel.doLayout();
@@ -717,14 +717,14 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 				}
 				this.bufferChildPanelCreation.i++;
 			}, this);
-			
+
 			tabPanel.setActiveTab(this.bufferChildPanelCreation.activeTab);
-			
+
 			Ext.getCmp('southMembershipPanel').doLayout();
 			Ext.getCmp('southMembershipPanel').expand();
-			
+
 			delete this.bufferChildPanelCration;
-			
+
 		}else{
 			this.removeDependentGrids();
 		}
@@ -734,10 +734,10 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 		Ext.getCmp('southMembershipPanel').collapse();
     },
     checkDefaults: function(){
-    	
+
     	/*
     	 * actions:
-    	  		
+
     	  	 this.action_newContact
 		 	 this.action_editAddress
 			 this.action_editContact
@@ -746,13 +746,13 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 			 this.action_createFeeInvoice
 			 this.action_addSoMember
 			 this.action_addBMWithContact
-			 
+
 			 this.actions_billing
 			 this.actions_change
 			 this.actions_print
 			 this.actions_exportDTA
     	 */
-    	
+
     	if(this.record.isNew()){
     		var defaultEntryDate = Tine.Membership.Helpers.SoMember.getMemberEntryDefaultDate();
     		Ext.getCmp('membership_begin_datetime').setValue(defaultEntryDate);
@@ -769,28 +769,28 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
     },
 	onLoadSoMember: function(){
 		this.processParentInformation();
-		
+
 		if(this.soMemberWidget){
 			this.soMemberWidget.onLoadSoMember(this.record);
 		}
-		
+
 		if(this.bankAccountWidget){
 			this.bankAccountWidget.triggerUpdate();
 			this.bankAccountWidget.setContactId(this.record.getForeignId('contact_id'));
 		}
-		
+
 		this.loadDebitor();
-		
+
 		// do something like prefill fields etc.
 		this.checkDefaults();
-		
+
 		if(this.record.getFeeGroupPrices()){
 			var pp = this.record.getFeeGroupPrices();
 			var sums = new Ext.util.MixedCollection();
 			var aStore = [];
 			var bStore = [];
 			Ext.QuickTips.init();
-		    
+
 		    var xg = Ext.grid;
 
 		    // shared reader
@@ -821,7 +821,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 		        title: 'Beitragsbestandteile',
 		        iconCls: 'icon-grid'
 		    });
-			
+
 			if(pp.items !== undefined && pp.items !=null){
 				p = pp.items;
 				var items = [];
@@ -830,11 +830,11 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 				var label, value;
 				var len = p.length;
 				var sum = 0;
-				
+
 				var countC1 = 0, countC2 = 0;
 				var aStore = [];
-				
-				
+
+
 				for(var i=0;i<len;i++){
 					if(p[i].category=='I'){
 						countC1++;
@@ -842,24 +842,24 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 						countC2++;
 					}
 				}
-				
-				
+
+
 				countC1 += 3;
 				var maxCount = Math.max(countC1+3, countC2);
-				
+
 				var iC1 = 0, iC2 = 0;
-				
+
 				var iItems = 0;
-				
+
 				for(var i=0;i<len;i++){
-					
+
 					if(p[i].category=='I'){
 						if(aStore[iC1] === undefined){
 							aStore[iC1] = [];
 						}
 						aStore[iC1][0] = p[i].label;
 						aStore[iC1][1] = p[i].value;
-						
+
 						if(iC2 == Math.max(countC2-1,0)){
 							aStore[iC1][2] = '';
 							aStore[iC1][3] = 0;
@@ -888,7 +888,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 				aStore[maxCount][1] = parseFloat(this.record.get('donation'));
 				aStore[maxCount][2] = '';
 				aStore[maxCount][3] = 0;
-				
+
 				if(aStore[maxCount+1] === undefined){
 					aStore[++maxCount] = [];
 				}
@@ -905,12 +905,12 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 					}
 				}
 				this.grid1.getStore().loadData(bStore);
-			
+
 				this.fgpPanel.removeAll();
 				this.fgpPanel.add(this.grid1);
-				
-			
-			
+
+
+
 				this.fgpPanel.doLayout();
 				this.grid1.expand();
 				Ext.getCmp('somember-edit-dialog-formitems-panel').doLayout();
@@ -919,7 +919,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 				this.fgpPanel.expand();
 			}
 					// set window name, to avoid multiply opening (twice) the same record
-			
+
 		}else{
 			this.fgpPanel.removeAll();
 			this.grid1 = null;
@@ -934,11 +934,11 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 		this.contactWin = Tine.Addressbook.ContactQuickEditDialog.openWindow({
 			simpleDialog : true,
 			additionalFields: [
-			  ['bank_account_name','bank_account_number'],                 
-			  ['bank_code','bank_name']                 
+			  ['bank_account_name','bank_account_number'],
+			  ['bank_code','bank_name']
 			],
-			
-			
+
+
 			listeners : {
 				update : {
 					scope : this,
@@ -950,7 +950,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 	onAddSoMember: function(){
 		if(this.record && !this.record.isNew() && this.record.isDirty()){
 			 Ext.MessageBox.show({
-	             title: 'Aktueller Datensatz nicht gespeichert', 
+	             title: 'Aktueller Datensatz nicht gespeichert',
 	             msg: 'Der aktuelle Datensatz ist in Bearbeitung.<br />Möchten Sie diesen zuerst speichern, bevor Sie fortfahren?',
 	             buttons: Ext.Msg.YESNO,
 	             scope: this,
@@ -960,14 +960,14 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 			 return false;
 		}
 		return true;
-		
+
 	},
 	saveBeforeClear: function(btn){
 		if(btn == 'yes'){
 			this.on('update', this.clearAddNew, this);
 			this.onApplyChanges();
-		
-			
+
+
 		}else{
 			this.clearAddNew();
 		}
@@ -995,10 +995,10 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 		this.contactWin = Tine.Addressbook.ContactQuickEditDialog.openWindow({
 			simpleDialog : true,
 			additionalFields: [
-			  ['bank_account_name','bank_account_number'],                 
-			  ['bank_code','bank_name']                 
+			  ['bank_account_name','bank_account_number'],
+			  ['bank_code','bank_name']
 			],
-			
+
 			fieldListeners:
 			[
 			   {field:'n_given'}
@@ -1010,7 +1010,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 				}
 			}
 		});
-		
+
 		this.contactWin.on('close',this.onReloadSelectionGrid,this);
 	},
 	onAddBMWithContact: function(){
@@ -1061,7 +1061,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
         		memberNr: memberNr
     		});
     	}catch(e){
-    		
+
     	}
 		/*this.loadMask.show();
 		var contactId = this.record.getForeignId('contact_id');
@@ -1079,7 +1079,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
             		this.onGetDebitorAddPayment(new Tine.Billing.Model.Debitor(result.result, result.result.id));
             	}else{
 	        		Ext.Msg.alert(
-            			'Hinweis', 
+            			'Hinweis',
                         'Kein Kundensatz vorhanden.'
                     );
             	}
@@ -1087,7 +1087,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
         	failure: function(response){
         		var result = Ext.util.JSON.decode(response.responseText);
         		Ext.Msg.alert(
-        			'Fehler', 
+        			'Fehler',
                     'Kunde konnte nicht abgefragt werden'
                 );
         	}
@@ -1096,7 +1096,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 	},
 	createFeeInvoice: function(){
 		var selIds = [this.record.get('id')];
-		
+
 		var win = Tine.Membership.PrintMembershipDialog.openWindow({
 			panelTitle: 'Beitragsabrechnung für Mitgliedsnummer ' + this.record.get('member_nr'),
 			selectedMemberIds: selIds,
@@ -1133,14 +1133,14 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
     		}
 		});
 	},
-	
+
 	onGetDebitorAddPayment: function(debitorRecord){
 		this.addPaymentWin = Tine.Billing.PaymentEditDialog.openWindow({
 			debitorRecord: debitorRecord
 		});
 		this.addPaymentWin.on('beforeclose',this.onUpdateDebitorAccount,this);
 	},
-	
+
 	onEditAddress: function(){
 		this.contactWin = Tine.Addressbook.ContactEditDialog.openWindow({
 			simpleDialog:true,
@@ -1153,7 +1153,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 			this.getSoMemberWidget();
 		}
 		var fields = Tine.Membership.SoMemberFormFields.get();
-		
+
 		this.bankAccountWidget = new Tine.Billing.BankAccountWidget();
 		this.bankAccountWidget.init('Membership');
 		this.bankAccountWidget.setFormComponent({
@@ -1163,7 +1163,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 		   width:500,
 		   layout:'fit',
 		   items:[
-          	{xtype:'columnform', 
+          	{xtype:'columnform',
           		items:[[
           		       fields.fee_payment_interval,
           		       this.bankAccountWidget.registerPaymentMethodField(
@@ -1208,19 +1208,19 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
           		   })
       		    ],[
       		       this.bankAccountWidget.registerBankSelector({hidden:true, hideLabel:true}),this.bankAccountWidget.registerSepaMandateSelector({hidden:true, hideLabel:true})
-          	    ]]                                                            
+          	    ]]
           	}
 		   ]
 	   });
-		
-		
-		
+
+
+
 	},
 	/**
 	 *  initialize dependent gridpanels
 	 */
 	initDependentGrids: function(){
-		
+
 		this.feeProgressGrid = new Tine.Membership.SoMemberFeeProgressGridPanel({
 			title:'Beitragsverläufe',
 			layout:'border',
@@ -1241,9 +1241,10 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 			doInitialLoad: false,
 			app: Tine.Tinebase.appMgr.get('Membership')
 		});
-		this.documentsPanel =  new Tine.widgets.activities.DocumentsTabPanel({
+		this.documentsPanel =  new Tine.Document.DocumentsTabPanel({
             app: Tine.Tinebase.appMgr.get('Membership'),
-            record_id: (this.record) ? this.record.id : '',
+            record: this.record,
+            parent_id: Tine.Document.registry.get('config').fundproject_id,
             record_model: this.appName + '_Model_' + this.recordClass.getMeta('modelName')
         });
 		this.actionHistoryGrid = new Tine.Membership.ActionHistoryGridPanel({
@@ -1255,7 +1256,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 			doInitialLoad: false,
 			app: Tine.Tinebase.appMgr.get('Membership')
 		});
-		
+
 		this.membershipAwardGrid = new Tine.Membership.MembershipAwardGridPanel({
 			title:'Ehrungen',
 			layout:'border',
@@ -1272,7 +1273,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
             //disabled: (Tine.Addressbook.registry.get('customfields').length === 0),
             quickHack: {record: this.record}
         });
-        
+
         this.regularDonationGrid = new Tine.Donator.RegularDonationGridPanel({
 			title:'Spendenaufträge',
 			layout:'border',
@@ -1282,7 +1283,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 			frame: true,
 			app: Tine.Tinebase.appMgr.get('Donator')
 		});
-        
+
         this.donationGrid = new Tine.Donator.FundMasterDonationGridPanel({
 			title:'Spenden',
 			layout:'fit',
@@ -1315,12 +1316,12 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 		    autoScroll:true,
 		    items: Tine.Membership.getSoMemberEditPanel(this.fgpPanel, this.bankAccountWidget)
 		});
-		
-		var grids = 
+
+		var grids =
 		[
 			this.memberMainPanel
 		];
-		
+
 		this.debitorAccountGrid = new Tine.Billing.DebitorAccountGridPanel({
 			title:'Kundenkonto',
 			layout:'border',
@@ -1331,7 +1332,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 			app: Tine.Tinebase.appMgr.get('Billing')
 		});
 		grids.push(this.debitorAccountGrid);
-		
+
 		this.committeeFunctionaryGrid = new Tine.Membership.CommitteeFuncGridPanel({
 			title:'Funktionäre',
 			perspective: 'FUNCTIONARY',
@@ -1345,9 +1346,9 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 			doInitialLoad: false,
 			app: Tine.Tinebase.appMgr.get('Membership')
 		});
-		
+
 		grids.push(this.committeeFunctionaryGrid);
-	
+
 		this.committeeFuncGrid = new Tine.Membership.CommitteeFuncGridPanel({
 			title:'Funktionen',
 			perspective: 'FUNCTION',
@@ -1359,7 +1360,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 			doInitialLoad: false,
 			app: Tine.Tinebase.appMgr.get('Membership')
 		});
-		
+
 		this.memberAccountGrid = new Tine.Membership.MembershipAccountGridPanel({
 			title:'Online-Zugänge',
 			layout:'border',
@@ -1370,7 +1371,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 			app: Tine.Tinebase.appMgr.get('Membership')
 		});
 		this.committeeFunctionaryGrid.on('creatememberaccount', this.memberAccountGrid.createAccountFromMember, this.memberAccountGrid);
-		
+
 		var contactCRMAffinityColumnForm = {
 	            xtype:'columnform',
 	            id:'contactCRMAffinityCForm',
@@ -1392,8 +1393,8 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 							id:'is_affiliated',
 				            name:'is_affiliated'
 						}
-						
-			       	],				   
+
+			       	],
 			       	[
  			        	Tine.Addressbook.Custom.getRecordPicker('Contact','affiliate_contact_id',{
 							disabledClass: 'x-item-disabled-view',
@@ -1419,7 +1420,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 
 						},{
 					 		xtype: 'sopencurrencyfield',
-					    	fieldLabel: 'Werberprovision', 
+					    	fieldLabel: 'Werberprovision',
 						    id:'affiliator_provision',
 						    name:'affiliator_provision',
 					    	disabledClass: 'x-item-disabled-view',
@@ -1443,7 +1444,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 						        incrementValue : 1,
 						        allowDecimals : false
 						    })
-						}      
+						}
 			       	],[
 						{
 							xtype: 'extuxclearabledatefield',
@@ -1452,22 +1453,22 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 							name: 'info_letter_date',
 							fieldLabel: 'Datum Infoschreiben',
 						    columnWidth:0.4
-						
-						}   
+
+						}
 			       	]
 			     ]
 		};
-		
+
 		this.crmPanel = new Ext.Panel({
 			layout:'fit',
 			frame:true,
 			title: 'Werbung',
 			items: [contactCRMAffinityColumnForm]
 		});
-		
+
 		grids.push(this.crmPanel);
 		grids.push(this.committeeFuncGrid);
-		
+
 		grids = grids.concat([
 			this.documentsPanel,
 			this.actionHistoryGrid,
@@ -1479,7 +1480,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 			this.customFieldsPanel,
 			this.memberAccountGrid
 		]);
-		
+
 		var items = [
 			{
 				   xtype:'tabpanel',
@@ -1487,9 +1488,9 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 				   region:'center',
 				   enableTabScroll : true,
 				   items: grids
-			}   
+			}
 		];
-		
+
 		if(!this.simplePanel){
 			var panel = {
 				xtype:'panel',
@@ -1510,7 +1511,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 				    	   deferredRender:false,
 				    	   layoutOnTabChange:true,
 				    	   items:[
-				    	          
+
 				    	   ]
 				       }
 				 ]
@@ -1528,10 +1529,10 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 		Ext.getCmp('membership_contact_id').on('select', this.onSelectContact, this);
 		Ext.getCmp('membership_contact_id').on('change', this.onSelectContact, this);
 		Ext.getCmp('membership_contact_id').on('afterdrop', this.onDropContact, this);
-		
+
 		Ext.getCmp('membership_parent_member_id').on('select', this.onSelectParentMember, this);
 		Ext.getCmp('membership_parent_member_id').on('change', this.onSelectParentMember, this);
-	
+
 		Ext.getCmp('membership_membership_type').on('select',this.onChangeMemberKind, this);
 		Ext.getCmp('membership_membership_type').on('change',this.onChangeMemberKind, this);
 		if(this.record.id == 0){
@@ -1552,12 +1553,12 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 			Ext.getCmp('membership_termination_reason_id').selectDefault();
 		}
     	this.initDropZone();
-    	
+
     	this.bankAccountWidget.finalize();
-    	
+
     	/*if(this.bankDataHelpers.getCount()==0){
     		this.bankDataHelpers.add(new Tine.Billing.BankDataHelper().initialize(
-    				'membership_bank_code', 'membership_bank_name', 'membership_bank_account_nr' , 'membership_account_holder' 
+    				'membership_bank_code', 'membership_bank_name', 'membership_bank_account_nr' , 'membership_account_holder'
     		));
     	}else{
     		this.bankDataHelpers.each(
@@ -1567,7 +1568,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 				this
 			);
     	}*/
-    	
+
 //    	Ext.getCmp('membership_account_holder').addListener('focus', this.presetBankAccountName, this);
     },
     presetBankAccountName: function(){
@@ -1595,7 +1596,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 		});
 		this.dd.addToGroup(this.ddConfig.ddGroupGetContact);
 	},
-	
+
 	extractRecordFromDrop: function(ddSource, e, data){
 		var source = data.selections[0];
 		var record = null;
@@ -1604,7 +1605,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 			var source = data.selections[0];
 			record = source;
 			break;
-			
+
 		case 'ddGroupGetSoMember':
 			if(source.getSoMember !== undefined && typeof(source.getSoMember)==='function'){
 				record = source.getSoMember();
@@ -1613,7 +1614,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 		}
 		return record;
 	},
-	
+
 	onDrop: function(ddSource, e, data){
 		var record = this.extractRecordFromDrop(ddSource, e, data);
 		if(!record){
@@ -1648,9 +1649,9 @@ Tine.Membership.SoMemberEditDialogPanel = Ext.extend(Ext.Panel, {
 	forceLayout:true,
 	initComponent: function(){
 		this.initSelectionGrids();
-		
+
 		Ext.apply(this.initialConfig,{region:'center'});
-		
+
 		var regularDialog = new Tine.Membership.SoMemberEditDialog(this.initialConfig);
 		regularDialog.doLayout();
 		this.items = this.getItems(regularDialog);
@@ -1673,9 +1674,9 @@ Tine.Membership.SoMemberEditDialogPanel = Ext.extend(Ext.Panel, {
 				title:'Kontakte',
 				layout:'border',
 				app: Tine.Tinebase.appMgr.get('Addressbook')
-			}                    
+			}
 		];
-		
+
 		// use some fields from soMember edit dialog
 		 var recordChooserPanel = {
 				 xtype:'panel',
@@ -1713,9 +1714,9 @@ Tine.Membership.SoMemberEditDialogSimplePanel = Ext.extend(Ext.Panel, {
 	forceLayout:true,
 	initComponent: function(){
 		this.initSelectionGrids();
-		
+
 		Ext.apply(this.initialConfig,{region:'center'});
-		
+
 		var regularDialog = new Tine.Membership.SoMemberEditDialog(this.initialConfig);
 		regularDialog.doLayout();
 		this.items = this.getItems(regularDialog);
@@ -1736,9 +1737,9 @@ Tine.Membership.SoMemberEditDialogSimplePanel = Ext.extend(Ext.Panel, {
 //				title:'Kontakte',
 //				layout:'border',
 //				app: Tine.Tinebase.appMgr.get('Addressbook')
-//			}                    
+//			}
 //		];
-		
+
 		// use some fields from soMember edit dialog
 //		 var recordChooserPanel = {
 //				 xtype:'panel',
@@ -1789,7 +1790,7 @@ Tine.Membership.SoMemberEditRecord = Ext.extend(Tine.widgets.dialog.DependentEdi
 	recordArray: Tine.Membership.Model.SoMemberArray,
 	recordClass: Tine.Membership.Model.SoMember,
     recordProxy: Tine.Membership.soMemberBackend,
-    
+
     parentRecordClass: Tine.Addressbook.Model.Contact,
     parentRelation: {
 		fkey: 'contact_id',
@@ -1840,7 +1841,7 @@ Tine.Membership.SoMemberEditRecord = Ext.extend(Tine.widgets.dialog.DependentEdi
 		switch(observable.className){
 		case 'Tine.Membership.FeeProgressEditRecord':
 			observable.on('aftersavesuccess',this.onAfterSaveFeeProgress, this);
-			
+
 			// don't call observable.exchangeEvents again here in parent
 			// -> recursion
 			return true;
@@ -1881,7 +1882,7 @@ Tine.Membership.SoMemberEditRecord = Ext.extend(Tine.widgets.dialog.DependentEdi
 	            }
 	        }
 	    });
-	},	
+	},
 
 	getFormContents: function(){
 		return Tine.Membership.getSoMemberEditDialogPanel(this.getComponents());
@@ -1911,10 +1912,10 @@ Tine.Membership.getSoMemberEditRecordAsTab = function(){
 			this.memberGrid.loadParentContact(contact);
 		},
 		items:[
-		    grid   
+		    grid
 		]
 	});
-	
+
 	return new Tine.Membership.SoMemberEditRecord(
 		{
 			title: 'Mitglieddaten',
@@ -1956,7 +1957,7 @@ Tine.Membership.getSoMemberEditDialogPanel = function(components){
 	if(components.childPanels.SoMemberFeeProgressEditRecord){
 		tabPanelItems.push(components.childPanels.SoMemberFeeProgressEditRecord);
 	}
-	
+
 	var editDialogPanel = {
 		xtype:'panel',
 		layout:'fit',
@@ -1977,9 +1978,9 @@ Tine.Membership.getSoMemberEditDialogPanel = function(components){
 			    activeTab: 0,
 			    items: tabPanelItems
 			}]
-		}]}; 
-	
-	
+		}]};
+
+
 	var contentPanelItems = [{
  	   xtype:'panel',
 	   region:'center',
@@ -1989,7 +1990,7 @@ Tine.Membership.getSoMemberEditDialogPanel = function(components){
 	   layout:'fit',
 	   items:[editDialogPanel]
    }];
-	
+
 	if(components.grid.useGrid){
 		var gridWrapperItem = {
     	   xtype:'panel',
@@ -2007,7 +2008,7 @@ Tine.Membership.getSoMemberEditDialogPanel = function(components){
 		};
 		contentPanelItems.push(gridWrapperItem);
 	}
-	
+
 	return [{
 		xtype:'panel',
 		layout:'fit',
@@ -2049,7 +2050,7 @@ Tine.Membership.getSoMemberEditPanelEmbedded = function(fgpPanel, bankAccountWid
 		border: false,
 		//frame: true,
 		layout:'border',
-		items:[ 
+		items:[
 		    {
 				xtype: 'panel',
 				id: 'somember-edit-dialog-inner-panel',
@@ -2067,7 +2068,7 @@ Tine.Membership.getSoMemberEditPanelEmbedded = function(fgpPanel, bankAccountWid
 
 Tine.Membership.getSoMemberFormItems = function(fgpPanel, bankAccountWidget){
 	var fields = Tine.Membership.SoMemberFormFields.get();
-	
+
 	return [{
 		xtype:'panel',
 		layout:'fit',
@@ -2106,11 +2107,11 @@ Tine.Membership.getSoMemberFormItems = function(fgpPanel, bankAccountWidget){
 				   layout:'fit',
 				   items:
 					[
-			          	{xtype:'columnform', id:'membership-entry-column-form', 
+			          	{xtype:'columnform', id:'membership-entry-column-form',
 			          		items:[[
 								fields.begin_datetime,
 								fields.entry_reason_id
-			          	    ]]                                                            
+			          	    ]]
 			          	}
 				   ]
 			   }
@@ -2122,7 +2123,7 @@ Tine.Membership.getSoMemberFormItems = function(fgpPanel, bankAccountWidget){
 					   width:500,
 					   layout:'fit',
 					   items:[
-					          	{xtype:'columnform', id:'membership-termination-column-form', 
+					          	{xtype:'columnform', id:'membership-termination-column-form',
 					          		items:
 					          		[[
 										fields.discharge_datetime,
@@ -2140,7 +2141,7 @@ Tine.Membership.getSoMemberFormItems = function(fgpPanel, bankAccountWidget){
 				   width:500,
 				   layout:'fit',
 				   items:[
-				          	{xtype:'columnform', id:'membership-bank-column-form', 
+				          	{xtype:'columnform', id:'membership-bank-column-form',
 				          		items:[[
 				          		     fields.fee_payment_interval,
 				          		     fields.fee_payment_method,
@@ -2151,7 +2152,7 @@ Tine.Membership.getSoMemberFormItems = function(fgpPanel, bankAccountWidget){
 				      	        ],[
 				      		        fields.bank_account_nr,
 				      		        fields.account_holder
-				          	    ]]                                                            
+				          	    ]]
 				          	}
 				   ]
 			   }*/
@@ -2164,7 +2165,7 @@ Tine.Membership.getSoMemberFormItems = function(fgpPanel, bankAccountWidget){
 					   width:500,
 					   layout:'fit',
 					   items:[
-					          	{xtype:'columnform', id:'membership-indiv-column-form', 
+					          	{xtype:'columnform', id:'membership-indiv-column-form',
 					          		items:[
 					          		[
 					          		 	fields.invoice_fee,
@@ -2174,14 +2175,14 @@ Tine.Membership.getSoMemberFormItems = function(fgpPanel, bankAccountWidget){
 										fields.individual_yearly_fee,
 										fields.donation,
 										fields.additional_fee
-					          	    ]]                                                            
+					          	    ]]
 					          	}
 					   ]
 				   }
 		],[
-			fgpPanel   				
+			fgpPanel
 		],[
-			fields.member_notes    
+			fields.member_notes
 		],[
 			fields.public_comment
 		],[
@@ -2208,7 +2209,7 @@ Ext.ns('Tine.Membership.SoMemberFormFields');
 Tine.Membership.SoMemberFormFields.get = function(){
 	return {
 		// hidden fields
-		id: 
+		id:
 			{xtype: 'hidden',id:'membership_id',name:'id'},
 		begin_progress_nr:
 			{xtype: 'hidden',id:'begin_progress_nr',name:'begin_progress_nr'},
@@ -2337,7 +2338,7 @@ Tine.Membership.SoMemberFormFields.get = function(){
 			},
 			birth_date:
 			{
-	            fieldLabel: 'Geburts-/Gründungsdatum', 
+	            fieldLabel: 'Geburts-/Gründungsdatum',
 	            disabledClass: 'x-item-disabled-view',
 	            name:'birth_date',
 	            width: 150,
@@ -2353,7 +2354,7 @@ Tine.Membership.SoMemberFormFields.get = function(){
 	        	disabled:true,
 	        	width: 60,
 	        	fieldLabel: 'Alter',
-	        	
+
 	        },
 	        member_age:
 	        {
@@ -2367,7 +2368,7 @@ Tine.Membership.SoMemberFormFields.get = function(){
 	        },
 	        exp_membercard_datetime:
 	        {
-	            fieldLabel: 'Exp.Mitglieds-Ausw.', 
+	            fieldLabel: 'Exp.Mitglieds-Ausw.',
 	            disabledClass: 'x-item-disabled-view',
 	            name:'exp_membercard_datetime',
 	            width: 110,
@@ -2388,7 +2389,7 @@ Tine.Membership.SoMemberFormFields.get = function(){
 	        {
 				xtype: 'datefield',
 				disabledClass: 'x-item-disabled-view',
-				fieldLabel: 'Eintritt', 
+				fieldLabel: 'Eintritt',
 			    name:'begin_datetime',
 			    id:'membership_begin_datetime',
 			    width:100,
@@ -2406,7 +2407,7 @@ Tine.Membership.SoMemberFormFields.get = function(){
 			discharge_datetime:
 				{
 					xtype: 'extuxclearabledatefield',
-				    fieldLabel: 'Kündigung', 
+				    fieldLabel: 'Kündigung',
 				    disabledClass: 'x-item-disabled-view',
 				    id:'membership_discharge_datetime',
 				    name:'discharge_datetime',
@@ -2430,10 +2431,10 @@ Tine.Membership.SoMemberFormFields.get = function(){
 				    allowBlank:false,
 				    autoSelectDefault:false
 				}),
-			fee_payment_interval:	
+			fee_payment_interval:
 				 {
   		        	width:160,
-  		            fieldLabel: 'Zahlungsweise', 
+  		            fieldLabel: 'Zahlungsweise',
   		            disabledClass: 'x-item-disabled-view',
   		            id:'membership_fee_payment_interval',
   		            xtype:'combo',
@@ -2459,7 +2460,7 @@ Tine.Membership.SoMemberFormFields.get = function(){
   		        	xtype:'textfield',
   		        	disabledClass: 'x-item-disabled-view',
   		        	width:200,
-  		            fieldLabel: 'BLZ', 
+  		            fieldLabel: 'BLZ',
   		            id:'membership_bank_code',
   		            name:'bank_code'
   		        },
@@ -2470,29 +2471,29 @@ Tine.Membership.SoMemberFormFields.get = function(){
 		        	width:200,
 	  	        	hideTrigger:true,
 	  	        	store:[],
-	  	        	fieldLabel: 'Bank-Name', 
+	  	        	fieldLabel: 'Bank-Name',
 		            id:'membership_bank_name',
 		            name:'bank_name'
 	  	      	},
-  		     bank_account_nr:    
+  		     bank_account_nr:
   		        {
   		        	xtype:'textfield',
   		        	disabledClass: 'x-item-disabled-view',
   		        	width:200,
-  		            fieldLabel: 'Kontonummer', 
+  		            fieldLabel: 'Kontonummer',
   		            id:'membership_bank_account_nr',
   		            name:'bank_account_nr'
   		        },
-  		     account_holder:    
+  		     account_holder:
   		        {
   		        	xtype:'textfield',
   		        	disabledClass: 'x-item-disabled-view',
   		        	width:200,
-  		            fieldLabel: 'Kontoinhaber', 
+  		            fieldLabel: 'Kontoinhaber',
   		            id:'membership_account_holder',
   		            name:'account_holder'
   		        },
-  		     invoice_fee:   
+  		     invoice_fee:
   		        {
 					xtype: 'checkbox',
 					disabledClass: 'x-item-disabled-view',
@@ -2502,7 +2503,7 @@ Tine.Membership.SoMemberFormFields.get = function(){
 				    boxLabel: 'Rechnung Beitrag',
 				    width:150
 				},
-			pays_admission_fee:	
+			pays_admission_fee:
 				{
 					xtype: 'checkbox',
 					disabledClass: 'x-item-disabled-view',
@@ -2512,7 +2513,7 @@ Tine.Membership.SoMemberFormFields.get = function(){
 					boxLabel: 'Bezahlt Aufnahmegebühr',
 				    width:150
 				},
-			has_individual_yearlyfee:	
+			has_individual_yearlyfee:
 				{
 					xtype: 'checkbox',
 					disabledClass: 'x-item-disabled-view',
@@ -2525,7 +2526,7 @@ Tine.Membership.SoMemberFormFields.get = function(){
 			individual_yearly_fee:
 				{
 					xtype: 'sopencurrencyfield',
-					fieldLabel: 'indiv. Jahresbeitr.', 
+					fieldLabel: 'indiv. Jahresbeitr.',
 				    id:'membership_individual_yearly_fee',
 				    name:'individual_yearly_fee',
 					disabledClass: 'x-item-disabled-view',
@@ -2535,7 +2536,7 @@ Tine.Membership.SoMemberFormFields.get = function(){
 			donation:
 				{
 					xtype: 'sopencurrencyfield',
-					fieldLabel: 'Spende', 
+					fieldLabel: 'Spende',
 				    id:'membership_donation',
 				    name:'donation',
 					disabledClass: 'x-item-disabled-view',
@@ -2545,7 +2546,7 @@ Tine.Membership.SoMemberFormFields.get = function(){
 			additional_fee:
 				{
 					xtype: 'sopencurrencyfield',
-					fieldLabel: 'Zusatzbeitrag', 
+					fieldLabel: 'Zusatzbeitrag',
 				    id:'membership_additional_fee',
 				    name:'additional_fee',
 					disabledClass: 'x-item-disabled-view',
@@ -2569,8 +2570,8 @@ Tine.Membership.SoMemberFormFields.get = function(){
 					id: 'membership_public_comment',
 					name: 'public_comment',
 					width:500
-				},				
-			fee_from_date:	
+				},
+			fee_from_date:
 				{
 					xtype:'extuxclearabledatefield',
 					disabledClass: 'x-item-disabled-view',
@@ -2579,7 +2580,7 @@ Tine.Membership.SoMemberFormFields.get = function(){
 					name:'fee_from_date',
 					width: 150
 				},
-			fee_to_date:	
+			fee_to_date:
 				{
 					xtype:'extuxclearabledatefield',
 					disabledClass: 'x-item-disabled-view',
@@ -2588,7 +2589,7 @@ Tine.Membership.SoMemberFormFields.get = function(){
 					name:'fee_to_date',
 					width: 150
 				},
-			admission_fee_payed:	
+			admission_fee_payed:
 				{
 					xtype: 'checkbox',
 					disabledClass: 'x-item-disabled-view',
@@ -2598,7 +2599,7 @@ Tine.Membership.SoMemberFormFields.get = function(){
 					boxLabel: 'Aufnahmegeb. ist bez.',
 				    width:150
 				},
-			n_fileas:	
+			n_fileas:
 				 new Tine.Addressbook.SearchCombo({
 		                allowBlank: true,
 		                width: 300,
@@ -2609,7 +2610,7 @@ Tine.Membership.SoMemberFormFields.get = function(){
 		                fieldLabel: 'Account',
 		                name: 'account_id'
 		            }),
-		    society_sopen_user:	    
+		    society_sopen_user:
 			    {
 					xtype: 'hidden',
 					disabledClass: 'x-item-disabled-view',
@@ -2620,7 +2621,7 @@ Tine.Membership.SoMemberFormFields.get = function(){
 				    boxLabel: 'Verein nutzt sopen',
 				    width:0
 				},
-			is_online_user:		
+			is_online_user:
 				{
 					xtype: 'hidden',
 					disabledClass: 'x-item-disabled-view',
@@ -2631,17 +2632,17 @@ Tine.Membership.SoMemberFormFields.get = function(){
 				    boxLabel: 'online-User',
 				    width:0
 				},
-			ext_system_username:    
+			ext_system_username:
   		        {
   		        	xtype:'textfield',
   		        	disabledClass: 'x-item-disabled-view',
   		        	width:200,
   		        	disabled:true,
-  		            fieldLabel: 'Benutzer Altsystem', 
+  		            fieldLabel: 'Benutzer Altsystem',
   		            id:'membership_ext_system_username',
   		            name:'ext_system_username'
-  		        },				
-			ext_system_modified:	
+  		        },
+			ext_system_modified:
 				{
 					xtype:'datefield',
 					disabledClass: 'x-item-disabled-view',
@@ -2650,8 +2651,8 @@ Tine.Membership.SoMemberFormFields.get = function(){
 					id:'membership_ext_system_modified',
 					name:'ext_system_modified',
 					width: 150
-				},	
-			print_reception_date:	
+				},
+			print_reception_date:
 				{
 					xtype:'extuxclearabledatefield',
 					disabledClass: 'x-item-disabled-view',
@@ -2659,8 +2660,8 @@ Tine.Membership.SoMemberFormFields.get = function(){
 					id:'membership_print_reception_date',
 					name:'print_reception_date',
 					width: 150
-				},	
-			print_discharge_date:	
+				},
+			print_discharge_date:
 				{
 					xtype:'extuxclearabledatefield',
 					disabledClass: 'x-item-disabled-view',
@@ -2668,8 +2669,8 @@ Tine.Membership.SoMemberFormFields.get = function(){
 					id:'membership_print_discharge_date',
 					name:'print_discharge_date',
 					width: 150
-				},	
-			print_confirmation_date:	
+				},
+			print_confirmation_date:
 				{
 					xtype:'extuxclearabledatefield',
 					disabledClass: 'x-item-disabled-view',
@@ -2678,7 +2679,7 @@ Tine.Membership.SoMemberFormFields.get = function(){
 					name:'print_confirmation_date',
 					width: 150
 				},
-			debit_auth_date:	
+			debit_auth_date:
 				{
 					xtype:'extuxclearabledatefield',
 					disabledClass: 'x-item-disabled-view',
@@ -2687,6 +2688,6 @@ Tine.Membership.SoMemberFormFields.get = function(){
 					name:'debit_auth_date',
 					width: 140
 				}
-				
+
 	};
 }
