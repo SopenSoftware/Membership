@@ -1,0 +1,72 @@
+Model from: Guido Breuer, for VDST
+Date: 2010-09-23
+
+membership:
+========================
+id						(pk)
+contact_id				(fk)
+society_contact_id		(fk)
+association_contact_id	(fk)
+family_contact_id		(fk)
+member_nr
+
+affiliate_contact_id	(fk)
+
+begin_datetime
+discharge_datetime
+termination_datetime
+
+entry_reason_id
+termination_reason_id
+
+exp_membercard_datetime
+member_notes
+invoice_fee
+
+membership_type (enum: single, family, viasociety, society)
+membership_status (enum -> aktiv, passiv)
+society_sopen_user
+
+fee_payment_interval (enum: year, quarter, month)
+fee_payment_method (enum: invoice, debit)
+
+bank_code
+bank_name
+account_nr
+account_holder
+
+is_online_user
+is_family_leading
+
+membership_fee_progress:
+========================
+
+id
+member_id (fk,pk)
+fee_progress_ext_id (fk, membership_fee_progress_ext:id)
+member_nr
+fee_category (enum: juvenile, adult)
+fee_from_datetime
+fee_to_datetime
+fee_year
+is_calculation_approved
+fee_period_notes
+fee_calc_datetime
+
+
+membership_fee_progress_ext:
+========================
+
+id (pk)
+mc_procure_contact_id (fk, addressbook:id)
+fee_ext_year
+members_total
+active_members_total
+passive_members_total
+juvenile_members_total
+adult_members_total
+acclamative_members_total
+main_convention_votes
+mc_procure_votes
+mc_votes_acc_procure
+mc_attendance

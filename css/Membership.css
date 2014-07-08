@@ -1,0 +1,41 @@
+@CHARSET "ISO-8859-1";
+
+.MembershipIconCls {
+    background-image:url({$tineVersion}/images/16x16/agt_family.png);
+}
+
+.MainTreeItemMember {
+    background-image:url({$tineVersion}/images/16x16/agt_family.png) !important;
+}
+
+.MainTreeItemFeeProgress {
+    background-image:url({$tineVersion}/images/16x16/agt_add-to-autorun.png) !important;
+}
+
+.action_addMember {
+    background-image:url({$tineVersion}/images/16x16/agt_family.png) !important;
+}
+.x-btn-medium .action_addMember {
+    background-image:url({$tineVersion}/images/22x22/agt_family.png) !important;
+}
+.x-btn-large .action_addMember {
+    background-image:url({$tineVersion}/images/32x32/agt_family.png) !important;
+}
+
+.action_execDueTasksSmall {
+	background-image:url(../../images/oxygen/16x16/categories/applications-system.png) !important;
+}
+
+.action_execDueTasksMedium {
+	background-image:url(../../images/oxygen/22x22/categories/applications-system.png) !important;
+}
+
+.action_execBilling {
+    background-image:url({$tineVersion}/images/16x16/kexi.png) !important;
+}
+.x-btn-medium .action_execBilling {
+    background-image:url({$tineVersion}/images/22x22/kexi.png) !important;
+}
+.x-btn-large .action_execBilling {
+    background-image:url({$tineVersion}/images/32x32/kexi.png) !important;
+}

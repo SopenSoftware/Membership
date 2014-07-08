@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application>
+    <name>Membership</name>
+    <version>1.1</version>
+    <order>80</order>
+    <status>enabled</status>
+	<depends>
+        <application>Addressbook</application>
+	</depends>
+</application>

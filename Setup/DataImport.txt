@@ -1,0 +1,6 @@
+Tabellen:
+
+mitglied
+
+MITGLIEDNR = contact_id
+VEREIMITGLNR = society_contact_id
