@@ -191,13 +191,13 @@ Tine.Membership.getStoreFromRegistry = function(modelName, registryKey, searchMe
             id: 'id',
             remoteSort: false
         });
-        
+
         if (Tine.Membership.registry.get(registryKey)) {
             store.loadData(Tine.Membership.registry.get(registryKey));
         }
         Ext.StoreMgr.add(storeName, store);
     }
-    
+
     return store;
 };
 
@@ -223,7 +223,7 @@ Tine.Membership.getArrayFromRegistry = function(registryKey){
 /**
  * get attender role store
  * if available, load data from initial data
- * 
+ *
  * @return Ext.data.JsonStore with salutations
  */
 Tine.Membership.getStore = function(modelName) {

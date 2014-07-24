@@ -272,19 +272,44 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 	onSelectParentMember: function(pmRecord){
 		var parentMemberRecord;
 		if(pmRecord.data){
-			parentMemberRecordd = pmRecord;
+			parentMemberRecord = pmRecord;
 		}else{
 			parentMemberRecord = pmRecord.selectedRecord;
 		}
 		Ext.getCmp('membership_association_id').setValue(parentMemberRecord.getForeignRecord(Tine.Membership.Model.Association,'association_id'));
 	},
 	onSelectContact: function(cRecord){
-		var contactRecord;
-		if(cRecord.data){
-			contactRecord = cRecord;
-		}else{
-			contactRecord = cRecord.selectedRecord;
-		}
+      var contactRecord;
+
+      if (cRecord.data){
+          contactRecord = cRecord;
+      } else {
+          contactRecord = cRecord.selectedRecord;
+      }
+
+      Ext.Ajax.request({
+          scope: this,
+          params: {
+              method: 'Membership.hasMemberships',
+              id:  contactRecord.id
+          },
+          success: function(res) {
+            var memberData = JSON.parse(res.responseText);
+
+            Ext.MessageBox.show({
+                title: 'Achtung',
+                msg: 'Dieser Kontakt hat schon eine Mitgliedschaft vom Typ "'+memberData.name+'". Wollen Sie dennoch eine weitere Mitgliedschaft erstellen?',
+                buttons: Ext.Msg.YESNO,
+                icon: Ext.MessageBox.WARNING,
+                fn: function(answer) {
+                  if (answer === 'no') {
+                    window.close();
+                  }
+                }
+            });
+          }
+      });
+
 		Ext.getCmp('membership_sex').setValue(contactRecord.get('sex'));
 		/*Ext.getCmp('membership_bank_name').setValue(contactRecord.get('bank_name'));
 		Ext.getCmp('membership_bank_code').setValue(contactRecord.get('bank_name'));
@@ -1526,7 +1551,7 @@ Tine.Membership.SoMemberEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, 
 	    ]});
 	},
 	onAfterRender: function(){
-		Ext.getCmp('membership_contact_id').on('select', this.onSelectContact, this);
+//		Ext.getCmp('membership_contact_id').on('select', this.onSelectContact, this);
 		Ext.getCmp('membership_contact_id').on('change', this.onSelectContact, this);
 		Ext.getCmp('membership_contact_id').on('afterdrop', this.onDropContact, this);
 
